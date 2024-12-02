@@ -3,14 +3,6 @@
 #include <string.h>
 #include "datastructs.h"
 
-struct vector {
-  size_t length;
-  size_t capacity;
-  int *data;
-};
-struct dstack {
-  struct vector *content;
-};
 struct vector *vec_new(size_t capacity) {
   int *data = malloc(sizeof(int) * capacity);
   struct vector *new_vec = malloc(sizeof(struct vector));

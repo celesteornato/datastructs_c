@@ -1,5 +1,14 @@
 #include <stdlib.h>
 
+struct vector {
+  size_t length;
+  size_t capacity;
+  int *data;
+};
+struct dstack {
+  struct vector *content;
+};
+
 extern struct vector* vec_new(size_t);
 extern void vec_add(struct vector*, int);
 extern void vec_rm(struct vector*, size_t);
