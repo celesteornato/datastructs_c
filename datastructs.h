@@ -6,23 +6,23 @@ struct vector {
   size_t size;
   void **data;
 };
+
 struct dstack {
   struct vector *content;
 };
 
-struct string {
-  size_t length;
-  char *data;
-};
-
 extern struct vector* vec_new(size_t, size_t);
 extern void vec_add(struct vector*, void*);
+extern void vec_append(struct vector*, void**, const size_t);
 extern void vec_rm(struct vector*, size_t);
 extern struct vector* vec_copy(struct vector*);
-extern void vec_print(struct vector*);
 extern struct vector *vec_copy(struct vector *);
 extern void vec_free(struct vector *); 
-extern void vec_print(struct vector *);
+extern void vec_print(struct vector *, const char*);
+extern void vec_foreach(struct vector *, void (void*));
+
+extern void mvec_free(struct vector*);
+extern void mvec_foreach(struct vector *, void (struct vector *));
 
 extern struct dstack *dstack_new(size_t, size_t); 
 extern void dstack_free(struct dstack *); 
