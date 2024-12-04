@@ -3,6 +3,10 @@
 #include <stdlib.h>
 #include <string.h>
 
+const struct error GET_ERROR = {
+  "Cannot access index"
+};
+
 struct vector *vec_new(size_t capacity, const size_t size) {
   void **data = malloc(size * capacity);
   struct vector *new_vec = malloc(sizeof(struct vector));
@@ -21,6 +25,20 @@ void vec_add(struct vector *v, void *elm) {
   (v->data)[v->length++] = elm;
 }
 
+struct result vec_get(struct vector *v, size_t index) {
+  struct result to_return;
+  if (index > v->length - 1) {
+    to_return.ok = 0;
+    to_return.result.err = GET_ERROR;
+  }
+  else
+  {
+    to_return.ok = 1;
+    to_return.result.elm = v->data[index];
+  }
+  return to_return;
+}
+
 void vec_append(struct vector *v, void **arr, const size_t size) {
   if (v->length + size >= v->capacity)
     v->data = realloc(v->data, v->size * (v->capacity + size));
@@ -35,7 +53,7 @@ void vec_foreach(struct vector *v, void f(void *)) {
 
 void mvec_foreach(struct vector *v, void f(struct vector *)) {
   for (size_t i = 0; i < v->length; ++i)
-    vec_foreach(v->data[i], (void (*)(void*))f);
+    vec_foreach(v->data[i], (void (*)(void *))f);
 }
 
 void vec_rm(struct vector *v, size_t index) {
@@ -57,8 +75,8 @@ void vec_free(struct vector *vec) {
 }
 
 void mvec_free(struct vector *vec) {
-  for(size_t i = 0; i < vec->length; ++i)
-    vec_foreach(vec, (void (*)(void*))vec_free);
+  for (size_t i = 0; i < vec->length; ++i)
+    vec_foreach(vec, (void (*)(void *))vec_free);
   free(vec);
 }
 
